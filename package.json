@@ -8,7 +8,7 @@
   },
   "prettier": "@webcoti/prettier-config",
   "eslintConfig": {
-    "extends": "@webcoti/eslint-config",
+    "extends": "@webcoti/eslint-config/typescript",
     "rules": {
       "react/react-in-jsx-scope": "off",
       "react/jsx-props-no-spreading": "off"
@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "@types/react": "17.0.14",
-    "@webcoti/eslint-config": "^1.3.1",
+    "@webcoti/eslint-config": "^1.3.4",
     "@webcoti/prettier-config": "^1.1.3",
     "eslint": "^8.2.0",
     "prettier": "^2.4.1",
