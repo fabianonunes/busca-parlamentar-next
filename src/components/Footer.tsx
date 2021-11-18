@@ -1,5 +1,6 @@
-import { Flex, Text } from '@chakra-ui/react';
-import Link from 'next/link';
+import Link from 'next/link'
+
+import { Flex, Text } from '@chakra-ui/react'
 
 export function Footer() {
   return (
@@ -14,5 +15,5 @@ export function Footer() {
         com 💚
       </Text>
     </Flex>
-  );
+  )
 }

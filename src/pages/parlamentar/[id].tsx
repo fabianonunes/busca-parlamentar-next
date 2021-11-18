@@ -1,55 +1,53 @@
-import { GetStaticPaths, GetStaticProps } from 'next';
-import Head from 'next/head';
+import { ComissionTable } from 'components/ComissionTable'
+import { Footer } from 'components/Footer'
+import { Header } from 'components/Header'
+import { Stat } from 'components/Stat'
+import { GetStaticPaths, GetStaticProps } from 'next'
+import Head from 'next/head'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useMemo } from 'react'
+import { FiArrowLeft } from 'react-icons/fi'
+import { dehydrate } from 'react-query/hydration'
+import { api } from 'services/api'
+import { getSenatorInfo, useSenatorInfo } from 'services/hooks/useSenatorInfo'
+import { queryClient } from 'services/queryClient'
+import type { Senator } from 'types/senator'
+
 import {
+  Avatar,
+  Badge,
   Box,
   Flex,
-  Avatar,
-  Text,
   Heading,
+  HStack,
+  IconButton,
   SimpleGrid,
   StatGroup,
-  IconButton,
-  Badge,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
-  HStack,
+  Text,
   useColorModeValue,
-} from '@chakra-ui/react';
-import { FiArrowLeft } from 'react-icons/fi';
-import { dehydrate } from 'react-query/hydration';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
-
-import type { Senator } from 'types/senator';
-
-import { api } from 'services/api';
-import { Header } from 'components/Header';
-
-import { Stat } from 'components/Stat';
-import { queryClient } from 'services/queryClient';
-import { getSenatorInfo, useSenatorInfo } from 'services/hooks/useSenatorInfo';
-import { ComissionTable } from 'components/ComissionTable';
-import { useMemo } from 'react';
-import { Footer } from 'components/Footer';
+} from '@chakra-ui/react'
 
 export default function Parlamentar() {
-  const { query } = useRouter();
-  const { data } = useSenatorInfo(String(query.id));
+  const { query } = useRouter()
+  const { data } = useSenatorInfo(String(query.id))
 
-  const bgColor = useColorModeValue('gray.100', 'gray.900');
-  const textColor = useColorModeValue('gray.900', 'gray.50');
-  const contentBgColor = useColorModeValue('white', 'gray.700');
-  const borderColor = useColorModeValue('gray.200', 'gray.600');
+  const bgColor = useColorModeValue('gray.100', 'gray.900')
+  const textColor = useColorModeValue('gray.900', 'gray.50')
+  const contentBgColor = useColorModeValue('white', 'gray.700')
+  const borderColor = useColorModeValue('gray.200', 'gray.600')
 
   const pronoun = useMemo(() => {
     if (data?.IdentificacaoParlamentar.SexoParlamentar === 'Masculino') {
-      return 'o';
+      return 'o'
     }
-    return 'a';
-  }, [data?.IdentificacaoParlamentar.SexoParlamentar]);
+    return 'a'
+  }, [data?.IdentificacaoParlamentar.SexoParlamentar])
 
   return (
     <Box bg={bgColor} color={textColor}>
@@ -80,8 +78,7 @@ export default function Parlamentar() {
           p={8}
           position="relative"
           border="1px solid"
-          borderColor={borderColor}
-        >
+          borderColor={borderColor}>
           <Link passHref href="/">
             <IconButton
               as="a"
@@ -123,8 +120,7 @@ export default function Parlamentar() {
             spacing={4}
             fontWeight="medium"
             mx="auto"
-            opacity={0.8}
-          >
+            opacity={0.8}>
             <Text>
               {data?.IdentificacaoParlamentar.NomeCompletoParlamentar}
             </Text>
@@ -133,8 +129,9 @@ export default function Parlamentar() {
             </Text>
             <Link
               passHref
-              href={String(data?.IdentificacaoParlamentar.UrlPaginaParlamentar)}
-            >
+              href={String(
+                data?.IdentificacaoParlamentar.UrlPaginaParlamentar,
+              )}>
               <Text as="a" textDecor="underline">
                 Página oficial
               </Text>
@@ -169,16 +166,14 @@ export default function Parlamentar() {
           border="1px solid"
           borderColor={borderColor}
           mt="2"
-          mb="8"
-        >
+          mb="8">
           <Tabs
             variant="line"
             colorScheme="teal"
             w="100%"
             maxW="100%"
             isLazy
-            isFitted
-          >
+            isFitted>
             <TabList>
               <Tab>Titular</Tab>
               <Tab>Suplente</Tab>
@@ -196,20 +191,20 @@ export default function Parlamentar() {
       </Flex>
       <Footer />
     </Box>
-  );
+  )
 }
 
 type SenatorListItem = {
-  IdentificacaoParlamentar: Senator[];
-};
+  IdentificacaoParlamentar: Senator[]
+}
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const response = await api.get('/senador/lista/atual');
+  const response = await api.get('/senador/lista/atual')
   const senatorRawList =
-    response.data.ListaParlamentarEmExercicio.Parlamentares.Parlamentar;
+    response.data.ListaParlamentarEmExercicio.Parlamentares.Parlamentar
   const senatorList = senatorRawList.map(
     (senator: SenatorListItem) => senator.IdentificacaoParlamentar,
-  );
+  )
 
   return {
     paths: senatorList.map((senator: Senator) => ({
@@ -218,18 +213,18 @@ export const getStaticPaths: GetStaticPaths = async () => {
       },
     })),
     fallback: 'blocking',
-  };
-};
+  }
+}
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   await queryClient.prefetchQuery(['senator-info', String(params?.id)], () =>
     getSenatorInfo(String(params?.id)),
-  );
+  )
 
   return {
     props: {
       dehydratedState: dehydrate(queryClient),
     },
     revalidate: 60 * 60 * 24, // 24h
-  };
-};
+  }
+}

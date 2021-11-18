@@ -1,11 +1,11 @@
-import { Senator } from 'types/senator';
+import { Senator } from 'types/senator'
 
 type FilterListProps = {
-  senatorList: Senator[];
-  searchBox: string;
-  party: string;
-  state: string;
-};
+  senatorList: Senator[]
+  searchBox: string
+  party: string
+  state: string
+}
 
 export function filterList({
   senatorList,
@@ -16,38 +16,38 @@ export function filterList({
   return senatorList
     .filter(senator => {
       if (searchBox === '') {
-        return senator;
+        return senator
       }
       const normalizedFilter = searchBox
         ?.normalize('NFD')
         .replace(/[\u0300-\u036f]/g, '')
-        .toLowerCase();
+        .toLowerCase()
       const normalizedName = senator?.NomeParlamentar.normalize('NFD')
         .replace(/[\u0300-\u036f]/g, '')
-        .toLowerCase();
+        .toLowerCase()
       const normalizedFullName = senator?.NomeCompletoParlamentar.normalize(
         'NFD',
       )
         .replace(/[\u0300-\u036f]/g, '')
-        .toLowerCase();
-      const senatorCode = senator?.CodigoParlamentar;
+        .toLowerCase()
+      const senatorCode = senator?.CodigoParlamentar
 
       return (
         normalizedName.includes(normalizedFilter) ||
         normalizedFullName.includes(normalizedFilter) ||
         senatorCode.includes(normalizedFilter)
-      );
+      )
     })
     .filter(senator => {
       if (state === '') {
-        return senator;
+        return senator
       }
-      return state === senator.UfParlamentar;
+      return state === senator.UfParlamentar
     })
     .filter(senator => {
       if (party === '') {
-        return senator;
+        return senator
       }
-      return party === senator.SiglaPartidoParlamentar;
-    });
+      return party === senator.SiglaPartidoParlamentar
+    })
 }

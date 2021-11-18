@@ -1,11 +1,11 @@
-import type { AppProps } from 'next/app';
-import { ChakraProvider } from '@chakra-ui/react';
-import { QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
-import { Hydrate } from 'react-query/hydration';
+import type { AppProps } from 'next/app'
+import { QueryClientProvider } from 'react-query'
+import { ReactQueryDevtools } from 'react-query/devtools'
+import { Hydrate } from 'react-query/hydration'
+import { queryClient } from 'services/queryClient'
+import { theme } from 'styles/theme'
 
-import { theme } from 'styles/theme';
-import { queryClient } from 'services/queryClient';
+import { ChakraProvider } from '@chakra-ui/react'
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -17,5 +17,5 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         </ChakraProvider>
       </Hydrate>
     </QueryClientProvider>
-  );
+  )
 }

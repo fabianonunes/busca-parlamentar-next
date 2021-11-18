@@ -1,5 +1,15 @@
-import Head from 'next/head';
-import { GetStaticProps } from 'next';
+import { Card } from 'components/Card'
+import { Footer } from 'components/Footer'
+import { Header } from 'components/Header'
+import { Pagination } from 'components/Pagination'
+import { filterList } from 'lib/filterList'
+import { debounce } from 'lodash'
+import { GetStaticProps } from 'next'
+import Head from 'next/head'
+import { ChangeEvent, useEffect, useMemo, useState } from 'react'
+import { api, apiIbge } from 'services/api'
+import type { Senator } from 'types/senator'
+
 import {
   Box,
   Flex,
@@ -9,57 +19,46 @@ import {
   Stack,
   Text,
   useColorModeValue,
-} from '@chakra-ui/react';
-import { ChangeEvent, useMemo, useState, useEffect } from 'react';
-import { debounce } from 'lodash';
+} from '@chakra-ui/react'
 
-import type { Senator } from 'types/senator';
-
-import { Footer } from 'components/Footer';
-import { Header } from 'components/Header';
-import { Card } from 'components/Card';
-
-import { api, apiIbge } from 'services/api';
-import { filterList } from 'lib/filterList';
-import { Pagination } from 'components/Pagination';
-import statesFallback from '../../public/states.json';
+import statesFallback from '../../public/states.json'
 
 interface HomeProps {
-  senators: Senator[];
+  senators: Senator[]
   parties: {
-    Sigla: string;
-    Nome: string;
-  }[];
+    Sigla: string
+    Nome: string
+  }[]
   states: {
-    nome: string;
-    sigla: string;
-  }[];
+    nome: string
+    sigla: string
+  }[]
 }
 
 export default function Home({ senators, parties, states }: HomeProps) {
-  const [searchBox, setSearchBox] = useState('');
-  const [selectedParty, setSelectedParty] = useState('');
-  const [selectedState, setSelectedState] = useState('');
-  const [page, setPage] = useState(1);
+  const [searchBox, setSearchBox] = useState('')
+  const [selectedParty, setSelectedParty] = useState('')
+  const [selectedState, setSelectedState] = useState('')
+  const [page, setPage] = useState(1)
 
-  const bgColor = useColorModeValue('gray.100', 'gray.900');
-  const textColor = useColorModeValue('gray.900', 'gray.50');
-  const inputFocusColor = useColorModeValue('teal.500', 'teal.200');
-  const contentBgColor = useColorModeValue('white', 'gray.700');
-  const borderColor = useColorModeValue('gray.200', 'gray.600');
+  const bgColor = useColorModeValue('gray.100', 'gray.900')
+  const textColor = useColorModeValue('gray.900', 'gray.50')
+  const inputFocusColor = useColorModeValue('teal.500', 'teal.200')
+  const contentBgColor = useColorModeValue('white', 'gray.700')
+  const borderColor = useColorModeValue('gray.200', 'gray.600')
 
-  const pageStart = (Number(page) - 1) * Number(18);
-  const pageEnd = pageStart + Number(18);
+  const pageStart = (Number(page) - 1) * Number(18)
+  const pageEnd = pageStart + Number(18)
 
   const handleSearchboxChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setPage(1);
-    setSearchBox(event.target?.value);
-  };
+    setPage(1)
+    setSearchBox(event.target?.value)
+  }
 
   const handleSearchboxDebounce = useMemo(
     () => debounce(handleSearchboxChange, 300),
     [],
-  );
+  )
 
   const filteredList = useMemo(
     () =>
@@ -70,14 +69,14 @@ export default function Home({ senators, parties, states }: HomeProps) {
         senatorList: senators,
       }),
     [searchBox, selectedParty, selectedState, senators],
-  );
+  )
 
   useEffect(
     () => () => {
-      handleSearchboxDebounce.cancel();
+      handleSearchboxDebounce.cancel()
     },
     [handleSearchboxDebounce],
-  );
+  )
 
   return (
     <Box bg={bgColor} color={textColor} minH="100vh">
@@ -101,8 +100,7 @@ export default function Home({ senators, parties, states }: HomeProps) {
           rounded="lg"
           border="1px"
           boxShadow="sm"
-          borderColor={borderColor}
-        >
+          borderColor={borderColor}>
           <Input
             placeholder="Digite o nome ou código parlamentar"
             variant="outline"
@@ -116,8 +114,7 @@ export default function Home({ senators, parties, states }: HomeProps) {
             placeholder="Partido"
             onChange={e => setSelectedParty(e.target.value)}
             maxW={['full', 'full', '20%']}
-            focusBorderColor={inputFocusColor}
-          >
+            focusBorderColor={inputFocusColor}>
             {parties.map(party => (
               <option key={party.Sigla} value={party.Sigla}>
                 {party.Sigla} - {party.Nome}
@@ -130,8 +127,7 @@ export default function Home({ senators, parties, states }: HomeProps) {
             value={selectedState}
             onChange={e => setSelectedState(e.target.value)}
             maxW={['full', 'full', '20%']}
-            focusBorderColor={inputFocusColor}
-          >
+            focusBorderColor={inputFocusColor}>
             {states.map(state => (
               <option key={state.sigla} value={state.sigla}>
                 {state.sigla} - {state.nome}
@@ -151,8 +147,7 @@ export default function Home({ senators, parties, states }: HomeProps) {
               w="100%"
               maxW="1280"
               spacing={4}
-              my="8"
-            >
+              my="8">
               {filteredList.slice(pageStart, pageEnd).map(senator => (
                 <Card
                   key={senator.CodigoParlamentar}
@@ -172,8 +167,7 @@ export default function Home({ senators, parties, states }: HomeProps) {
               rounded="lg"
               border="1px"
               boxShadow="sm"
-              borderColor={borderColor}
-            >
+              borderColor={borderColor}>
               <Pagination
                 registersPerPage={18}
                 totalCountOfRegisters={filteredList.length}
@@ -186,32 +180,32 @@ export default function Home({ senators, parties, states }: HomeProps) {
       </Flex>
       <Footer />
     </Box>
-  );
+  )
 }
 
 type SenatorListItem = {
-  IdentificacaoParlamentar: Senator;
-};
+  IdentificacaoParlamentar: Senator
+}
 
 export const getStaticProps: GetStaticProps = async () => {
   try {
-    const responseSenators = await api.get('/senador/lista/atual');
+    const responseSenators = await api.get('/senador/lista/atual')
 
     const { Parlamentar } =
-      responseSenators.data.ListaParlamentarEmExercicio.Parlamentares;
+      responseSenators.data.ListaParlamentarEmExercicio.Parlamentares
 
     const senators: Senator[] = Parlamentar.map(
       (senator: SenatorListItem) => senator.IdentificacaoParlamentar,
     ).map((senator: Senator) => {
-      const photo = senator.UrlFotoParlamentar.replace('http', 'https');
+      const photo = senator.UrlFotoParlamentar.replace('http', 'https')
       return {
         ...senator,
         UrlFotoParlamentar: photo,
-      };
-    });
+      }
+    })
 
-    const responseParties = await api.get('/senador/partidos');
-    const parties = responseParties.data.ListaPartidos.Partidos.Partido;
+    const responseParties = await api.get('/senador/partidos')
+    const parties = responseParties.data.ListaPartidos.Partidos.Partido
 
     // A API do IBGE está fora do ar no momento do envio do desafio
 
@@ -225,7 +219,7 @@ export const getStaticProps: GetStaticProps = async () => {
         states: statesFallback.UF,
       },
       revalidate: 60 * 60 * 24, // 24h
-    };
+    }
   } catch {
     // Retorna array vazio caso não consiga encontrar resultados
     return {
@@ -235,6 +229,6 @@ export const getStaticProps: GetStaticProps = async () => {
         states: [{}],
       },
       revalidate: 60 * 60 * 2, // 2h
-    };
+    }
   }
-};
+}

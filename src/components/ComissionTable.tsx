@@ -1,49 +1,51 @@
-import type { Comission } from 'types/senator';
-import { FiInfo } from 'react-icons/fi';
+import { useMemo, useState } from 'react'
+import { FiInfo } from 'react-icons/fi'
+import type { Comission } from 'types/senator'
+
 import {
   Badge,
-  useBreakpointValue,
-  Tooltip,
+  Box,
+  Flex,
   IconButton,
   Popover,
-  PopoverTrigger,
-  PopoverContent,
   PopoverBody,
   PopoverCloseButton,
-  Text,
-  useColorModeValue,
+  PopoverContent,
+  PopoverTrigger,
   SimpleGrid,
-  Flex,
+  Text,
+  Tooltip,
+  useBreakpointValue,
+  useColorModeValue,
   VStack,
-  Box,
-} from '@chakra-ui/react';
-import { useMemo, useState } from 'react';
-import { Pagination } from './Pagination';
+} from '@chakra-ui/react'
+
+import { Pagination } from './Pagination'
 
 interface ComissionTableProps {
-  comissions?: Comission[];
+  comissions?: Comission[]
 }
 
 export function ComissionTable({ comissions }: ComissionTableProps) {
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(1)
 
   const isSmallScreen = useBreakpointValue({
     base: true,
     lg: false,
-  });
+  })
 
-  const evenChatBg = useColorModeValue('gray.100', 'gray.800');
-  const borderColor = useColorModeValue('gray.200', 'gray.600');
+  const evenChatBg = useColorModeValue('gray.100', 'gray.800')
+  const borderColor = useColorModeValue('gray.200', 'gray.600')
 
-  const pageStart = (Number(page) - 1) * Number(10);
-  const pageEnd = pageStart + Number(10);
+  const pageStart = (Number(page) - 1) * Number(10)
+  const pageEnd = pageStart + Number(10)
 
   const numberOfComissions = useMemo(() => {
     if (comissions) {
-      return comissions.length;
+      return comissions.length
     }
-    return 0;
-  }, [comissions]);
+    return 0
+  }, [comissions])
 
   return (
     <VStack w="100%" direction="column" align="center" spacing={1.5}>
@@ -52,8 +54,7 @@ export function ComissionTable({ comissions }: ComissionTableProps) {
         w="100%"
         textAlign="center"
         mx="auto"
-        fontWeight="bold"
-      >
+        fontWeight="bold">
         <Text>Nome</Text>
         <Text>Casa</Text>
 
@@ -72,8 +73,7 @@ export function ComissionTable({ comissions }: ComissionTableProps) {
         w="100%"
         border="1px"
         borderColor={borderColor}
-        rounded="lg"
-      >
+        rounded="lg">
         {numberOfComissions <= 0 ? (
           <Flex p={1} flex="1" w="full" align="center" justify="center">
             Este senador ainda não participou de nenhuma comissão com esse
@@ -92,15 +92,13 @@ export function ComissionTable({ comissions }: ComissionTableProps) {
               _even={{ bg: evenChatBg }}
               _first={{ roundedTop: 'lg' }}
               _last={{ roundedBottom: 'lg' }}
-              alignItems="center"
-            >
+              alignItems="center">
               <Tooltip
                 placement="top-start"
                 label={comission.IdentificacaoComissao.NomeComissao}
                 rounded="md"
                 textAlign="center"
-                isLazy
-              >
+                isLazy>
                 <Text fontSize={['xx-small', 'xs', 'xs', 'sm']}>
                   {`${comission.IdentificacaoComissao.SiglaComissao} ℹ️`}
                 </Text>
@@ -110,8 +108,7 @@ export function ComissionTable({ comissions }: ComissionTableProps) {
                 <Badge
                   colorScheme="purple"
                   variant="outline"
-                  fontSize={['xx-small', 'xs', 'xs']}
-                >
+                  fontSize={['xx-small', 'xs', 'xs']}>
                   {isSmallScreen
                     ? comission.IdentificacaoComissao.SiglaCasaComissao
                     : comission.IdentificacaoComissao.NomeCasaComissao}
@@ -173,5 +170,5 @@ export function ComissionTable({ comissions }: ComissionTableProps) {
         currentPage={page}
       />
     </VStack>
-  );
+  )
 }

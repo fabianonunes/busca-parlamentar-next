@@ -1,19 +1,20 @@
-import { HStack, Text } from '@chakra-ui/react';
-import { PaginationItem } from './PaginationItem';
+import { HStack, Text } from '@chakra-ui/react'
+
+import { PaginationItem } from './PaginationItem'
 
 interface PaginationProps {
-  totalCountOfRegisters: number;
-  registersPerPage?: number;
-  currentPage?: number;
-  onPageChange: (page: number) => void;
+  totalCountOfRegisters: number
+  registersPerPage?: number
+  currentPage?: number
+  onPageChange: (page: number) => void
 }
 
-const siblingsCount = 1;
+const siblingsCount = 1
 
 function generatePagesArray(from: number, to: number) {
   return [...new Array(to - from)]
     .map((_, index) => from + index + 1)
-    .filter(page => page > 0);
+    .filter(page => page > 0)
 }
 
 export function Pagination({
@@ -22,12 +23,12 @@ export function Pagination({
   currentPage = 1,
   onPageChange,
 }: PaginationProps) {
-  const lastPage = Math.floor(totalCountOfRegisters / registersPerPage);
+  const lastPage = Math.floor(totalCountOfRegisters / registersPerPage)
 
   const previousPages =
     currentPage > 1
       ? generatePagesArray(currentPage - 1 - siblingsCount, currentPage - 1)
-      : [];
+      : []
 
   const nextPages =
     currentPage < lastPage
@@ -35,7 +36,7 @@ export function Pagination({
           currentPage,
           Math.min(currentPage + siblingsCount, lastPage),
         )
-      : [];
+      : []
 
   return (
     <HStack spacing="2">
@@ -85,5 +86,5 @@ export function Pagination({
         </>
       )}
     </HStack>
-  );
+  )
 }

@@ -3,12 +3,12 @@ import {
   StatHelpText,
   StatLabel,
   StatNumber,
-} from '@chakra-ui/react';
+} from '@chakra-ui/react'
 
 interface StatProps {
-  label: string;
-  data?: string | number;
-  helpText?: string;
+  label: string
+  data?: string | number
+  helpText?: string
 }
 
 export function Stat({ label, data, helpText }: StatProps) {
@@ -18,5 +18,5 @@ export function Stat({ label, data, helpText }: StatProps) {
       <StatNumber>{data}</StatNumber>
       {helpText && <StatHelpText>{helpText}</StatHelpText>}
     </ChakraStat>
-  );
+  )
 }

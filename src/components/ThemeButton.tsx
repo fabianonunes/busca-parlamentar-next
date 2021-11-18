@@ -1,16 +1,16 @@
+import { RiMoonLine, RiSunLine } from 'react-icons/ri'
+
 import {
-  Tooltip,
   IconButton,
+  Tooltip,
   useColorMode,
   useColorModeValue,
-} from '@chakra-ui/react';
-
-import { RiMoonLine, RiSunLine } from 'react-icons/ri';
+} from '@chakra-ui/react'
 
 export function ThemeButton() {
-  const { colorMode, toggleColorMode } = useColorMode();
+  const { colorMode, toggleColorMode } = useColorMode()
 
-  const color = useColorModeValue(`teal.500`, `teal.200`);
+  const color = useColorModeValue(`teal.500`, `teal.200`)
 
   return (
     <Tooltip label={`Usar tema ${colorMode === `dark` ? `claro` : `escuro`}`}>
@@ -30,5 +30,5 @@ export function ThemeButton() {
         onClick={toggleColorMode}
       />
     </Tooltip>
-  );
+  )
 }

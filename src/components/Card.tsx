@@ -1,30 +1,31 @@
-import Link from 'next/link';
+import Link from 'next/link'
+
 import {
-  Flex,
-  Box,
   Avatar,
-  Text,
   Badge,
+  Box,
+  Flex,
   LinkBox,
   LinkOverlay,
   Stack,
+  Text,
   useColorModeValue,
-} from '@chakra-ui/react';
+} from '@chakra-ui/react'
 
 interface CardProps {
-  id: string;
-  name: string;
-  photoUrl: string;
-  uf: string;
-  party: string;
-  fullName: string;
+  id: string
+  name: string
+  photoUrl: string
+  uf: string
+  party: string
+  fullName: string
 }
 
 export function Card({ name, photoUrl, uf, party, id, fullName }: CardProps) {
-  const bgColor = useColorModeValue('white', 'gray.700');
-  const borderColor = useColorModeValue('gray.200', 'gray.600');
-  const textColor = useColorModeValue('gray.900', 'gray.50');
-  const hoveredColor = useColorModeValue('teal.700', 'teal.200');
+  const bgColor = useColorModeValue('white', 'gray.700')
+  const borderColor = useColorModeValue('gray.200', 'gray.600')
+  const textColor = useColorModeValue('gray.900', 'gray.50')
+  const hoveredColor = useColorModeValue('teal.700', 'teal.200')
 
   return (
     <Link href={`/parlamentar/${id}`} passHref>
@@ -48,8 +49,7 @@ export function Card({ name, photoUrl, uf, party, id, fullName }: CardProps) {
             border: '1px solid',
             borderColor: hoveredColor,
             shadowColor: 'teal.600',
-          }}
-        >
+          }}>
           <Avatar name={name} src={photoUrl} mr="2" size="lg" />
           <Box w="100%">
             <Flex align="center" justify="space-between">
@@ -63,21 +63,18 @@ export function Card({ name, photoUrl, uf, party, id, fullName }: CardProps) {
                 align="center"
                 spacing={1}
                 ml={2}
-                mt={-4}
-              >
+                mt={-4}>
                 <Badge
                   variant="outline"
                   colorScheme="purple"
                   fontSize={['xs', 'xx-small', 'xs']}
-                  isTruncated
-                >
+                  isTruncated>
                   {party}
                 </Badge>
                 <Badge
                   fontSize={['xs', 'xx-small', 'xs']}
                   variant="outline"
-                  colorScheme="teal"
-                >
+                  colorScheme="teal">
                   {uf}
                 </Badge>
               </Stack>
@@ -87,13 +84,12 @@ export function Card({ name, photoUrl, uf, party, id, fullName }: CardProps) {
               lineHeight="shorter"
               opacity={0.8}
               fontSize="xx-small"
-              maxW="50%"
-            >
+              maxW="50%">
               {fullName}
             </Text>
           </Box>
         </Flex>
       </LinkBox>
     </Link>
-  );
+  )
 }
