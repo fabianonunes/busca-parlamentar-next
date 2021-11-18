@@ -20,7 +20,7 @@ import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
 import { Pagination } from '@/components/Pagination'
 import { filterList } from '@/lib/filterList'
-import { api, apiIbge } from '@/services/api'
+import { api } from '@/services/api'
 
 import statesFallback from '../../public/states.json'
 
