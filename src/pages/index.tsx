@@ -1,13 +1,7 @@
-import { Card } from 'components/Card'
-import { Footer } from 'components/Footer'
-import { Header } from 'components/Header'
-import { Pagination } from 'components/Pagination'
-import { filterList } from 'lib/filterList'
 import { debounce } from 'lodash'
 import { GetStaticProps } from 'next'
 import Head from 'next/head'
 import { ChangeEvent, useEffect, useMemo, useState } from 'react'
-import { api, apiIbge } from 'services/api'
 import type { Senator } from 'types/senator'
 
 import {
@@ -20,6 +14,13 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react'
+
+import { Card } from '@/components/Card'
+import { Footer } from '@/components/Footer'
+import { Header } from '@/components/Header'
+import { Pagination } from '@/components/Pagination'
+import { filterList } from '@/lib/filterList'
+import { api, apiIbge } from '@/services/api'
 
 import statesFallback from '../../public/states.json'
 

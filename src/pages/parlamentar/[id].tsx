@@ -1,7 +1,3 @@
-import { ComissionTable } from 'components/ComissionTable'
-import { Footer } from 'components/Footer'
-import { Header } from 'components/Header'
-import { Stat } from 'components/Stat'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
@@ -9,10 +5,6 @@ import { useRouter } from 'next/router'
 import { useMemo } from 'react'
 import { FiArrowLeft } from 'react-icons/fi'
 import { dehydrate } from 'react-query/hydration'
-import { api } from 'services/api'
-import { getSenatorInfo, useSenatorInfo } from 'services/hooks/useSenatorInfo'
-import { queryClient } from 'services/queryClient'
-import type { Senator } from 'types/senator'
 
 import {
   Avatar,
@@ -32,6 +24,15 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react'
+
+import { ComissionTable } from '@/components/ComissionTable'
+import { Footer } from '@/components/Footer'
+import { Header } from '@/components/Header'
+import { Stat } from '@/components/Stat'
+import { api } from '@/services/api'
+import { getSenatorInfo, useSenatorInfo } from '@/services/hooks/useSenatorInfo'
+import { queryClient } from '@/services/queryClient'
+import type { Senator } from '@/types/senator'
 
 export default function Parlamentar() {
   const { query } = useRouter()

@@ -1,4 +1,4 @@
-import { Senator } from 'types/senator'
+import { Senator } from '@/types/senator'
 
 type FilterListProps = {
   senatorList: Senator[]

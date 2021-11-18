@@ -1,7 +1,8 @@
 import { compareAsc, format } from 'date-fns'
 import { useQuery, UseQueryResult } from 'react-query'
-import { api } from 'services/api'
-import { Comission, Senator, SenatorInfo } from 'types/senator'
+
+import { api } from '@/services/api'
+import { Comission, Senator, SenatorInfo } from '@/types/senator'
 
 type SenatorListItem = {
   IdentificacaoParlamentar: Senator
